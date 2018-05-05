@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Psychic Game</title>
+  </head>
+  <body>
+
+    <h1>The Psychic Game</h1>
+    
+
+
+<div id="game">
+
+</div>
+
+<script type="text/javascript">
+
+  // Creates an array of all letters
+  var allLetters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+
+  //creates variables
+  var wins=0;
+  var losses =0;
+  var guesses=0;
+  var guessesLeft=9;
+  var allGuesses="";
+  var finalLetter="";
+  var userGuess="";
+
+    //create loop to run the program the amount of guessesLeft
+    // This function is run whenever the user presses a key.
+    randomLetter();
+    displayOutcome();
+    
+
+    document.onkeyup = function(event) {   
+        // Determines which key was pressed.
+        userGuess = event.key.toLowerCase();
+        
+        //checks to see if the key pressed is a letter - struggling to get the character verification to work
+        if (event.keyCode >= 65 && event.keyCode <= 90) {
+            //runs while guesses<guesses left
+            if (guesses<9) {
+                if (userGuess===finalLetter) {
+                    wins++;
+                    alert("Congrats you are psychic!!!! ");
+                    //reset
+                    displayConsoleLog();
+                    guesses=0;
+                    guessesLeft=9;
+                    allGuesses="";
+                    finalLetter="";
+                    displayOutcome();
+                    randomLetter(); 
+                } else {
+                    //track all guesses
+                    if (guesses===0) {
+                            allGuesses=userGuess;
+                    } else {
+                        allGuesses=allGuesses + ", " + userGuess;
+                    }
+                    guesses++;
+                    guessesLeft--;           
+                    displayOutcome();
+                    displayConsoleLog();
+                }         
+            } else {
+                alert("you are not psychic - do not quit your day job!!!");
+                losses++;
+                displayConsoleLog();
+                guesses=0;
+                guessesLeft=9;
+                allGuesses="";
+                finalLetter="";
+                displayOutcome();
+                randomLetter();
+            }
+        }
+    };
+
+    //ceate a display function
+    function displayOutcome() {
+        // Creating a variable to hold our new HTML. Our HTML now keeps track of the user and computer guesses, and wins/losses/ties.
+        var html =
+                        "<p>Guess what letter I am thinking of (lowercase)</p>" +
+                        "<p>Wins: " + wins + "</p>" +
+                        "<p>Losses: " + losses + "</p>" +
+                        "<p>Guesses Left: " + guessesLeft + "</p>" +
+                        "<p>Your Guesses so far: " + allGuesses + "</p>";
+
+            // Set the inner HTML contents of the #game div to our html string
+            document.querySelector("#game").innerHTML = html;
+    }
+
+    //create a display consolelog
+    function displayConsoleLog() {
+        //test to make sure variables work
+        console.log("_________________");
+        console.log("wins = " + wins);
+        console.log("losses = " + losses);
+        console.log("guesses = " + guesses);
+        console.log("guesses left = " + guessesLeft);
+        console.log("all guesses = " + allGuesses);
+        console.log("random letter = " + finalLetter);
+        
+    }
+
+    //create a function for random letter
+    function randomLetter() {
+        // Randomly chooses a choice from the options array. This is the Computer's guess.
+        finalLetter = allLetters[Math.floor(Math.random() * allLetters.length)];
+    }
+        
+    
+
+    
+  
+
+
+    </script>
+    
+  </body>
+</html>
+
